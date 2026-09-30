@@ -1,0 +1,6 @@
+.moviesSections {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  padding: 64px 0;
+}

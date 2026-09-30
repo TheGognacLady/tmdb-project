@@ -1,0 +1,156 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+.posterFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--navigation-active-background);
+}
+
+.posterLink {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: inherit;
+}
+
+.posterLink:focus-visible,
+.titleLink:focus-visible,
+.favoriteButton:focus-visible {
+  outline: 3px solid var(--header-focus);
+  outline-offset: 4px;
+}
+
+.posterLink:focus-visible {
+  outline-offset: -3px;
+}
+
+.poster {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.posterLink:hover .poster {
+  transform: scale(1.05);
+}
+
+.posterFallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  box-sizing: border-box;
+  place-items: center;
+  padding: 12px;
+  color: var(--text-primary);
+  font-size: 14px;
+  text-align: center;
+}
+
+.rating {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ratingPositive {
+  background: #16a34a;
+}
+
+.ratingNeutral {
+  background: #facc15;
+  color: #111827;
+}
+
+.ratingNegative {
+  background: #dc2626;
+}
+
+:global([data-theme='dark']) .ratingPositive {
+  background: #22c55e;
+}
+
+:global([data-theme='dark']) .ratingNegative {
+  background: #ef4444;
+}
+
+.favoriteButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.6);
+  color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s, background-color 0.2s, color 0.2s;
+}
+
+.favoriteButton:hover {
+  background: #2563eb;
+  color: #fff;
+}
+
+.favoriteIcon {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.titleLink {
+  display: inline-block;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.titleLink:hover {
+  color: var(--navigation-hover);
+}
+
+.title {
+  margin: 0;
+  color: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+}
+
+@media (hover: hover) {
+  .favoriteButton {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  .posterFrame:hover .favoriteButton,
+  .favoriteButton:focus-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
