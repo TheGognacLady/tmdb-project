@@ -1,0 +1,28 @@
+.page {
+  display: grid;
+  width: min(1200px, calc(100% - 48px));
+  grid-template-columns: 294px minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+  margin: 0 auto;
+  padding: 24px 0 64px;
+}
+
+@media (max-width: 1199px) {
+  .page {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .page {
+    width: calc(100% - 40px);
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

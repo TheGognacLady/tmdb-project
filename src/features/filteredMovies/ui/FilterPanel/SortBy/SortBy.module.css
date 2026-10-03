@@ -1,0 +1,45 @@
+.sortField {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.label {
+  color: var(--navigation-text);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.select {
+  width: 100%;
+  min-width: 0;
+  min-height: 36px;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border: 1px solid var(--theme-button-border);
+  border-radius: 8px;
+  background: var(--theme-button-background);
+  color: var(--theme-button-text);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.select:focus-visible {
+  outline: 2px solid var(--header-focus);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .sortField {
+    grid-template-columns: 60px minmax(0, 1fr);
+    margin-top: 24px;
+  }
+
+  .select {
+    min-height: 44px;
+  }
+}

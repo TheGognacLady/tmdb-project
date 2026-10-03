@@ -1,0 +1,19 @@
+.panel {
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 24px;
+  border-radius: 12px;
+  background: var(--header-background);
+  color: #213547;
+}
+
+:global(:root[data-theme='dark']) .panel {
+  color: #cdd5de;
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+}
