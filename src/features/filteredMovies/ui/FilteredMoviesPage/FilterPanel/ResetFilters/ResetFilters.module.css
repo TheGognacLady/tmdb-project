@@ -1,0 +1,42 @@
+.actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 36px;
+}
+
+.resetButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, opacity 0.2s;
+}
+
+.resetButton:hover {
+  background: #1d4ed8;
+}
+
+.resetButton:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+  .actions {
+    margin-top: 28px;
+  }
+
+  .resetButton {
+    min-height: 44px;
+  }
+}

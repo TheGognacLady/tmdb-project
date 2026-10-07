@@ -10,6 +10,8 @@ type FilteredMoviesResultsProps = {
   currentPage: number
   minRating: number
   maxRating: number
+  isRatingPending: boolean
+  genreIds: number[]
   onPageChange: (page: number) => void
 }
 
@@ -18,18 +20,25 @@ export const FilteredMoviesResults = ({
   currentPage,
   minRating,
   maxRating,
+  isRatingPending,
+  genreIds,
   onPageChange,
 }: FilteredMoviesResultsProps) => {
-  const { currentData: data, isFetching, isError } = useGetFilteredMoviesQuery({
-    page: currentPage,
-    sortBy,
-    minRating,
-    maxRating,
-  })
+  const { data, isFetching, isError } = useGetFilteredMoviesQuery(
+    {
+      page: currentPage,
+      sortBy,
+      minRating,
+      maxRating,
+      genreIds,
+    },
+    { skip: isRatingPending },
+  )
   const totalPages = Math.min(data?.total_pages ?? 0, TMDB_MAX_PAGE)
 
   return (
     <section className={styles.results} aria-label="Filtered movies">
+      {/* TODO: Revisit retained data when adding skeleton and loading states. */}
       {isError ? (
         <p className={styles.message} role="alert">Failed to load movies.</p>
       ) : isFetching && !data ? (

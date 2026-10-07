@@ -1,0 +1,73 @@
+.genres {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 36px;
+}
+
+.genreButton {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 6px 12px;
+  border: 1px solid var(--theme-button-border);
+  border-radius: 9999px;
+  background: var(--theme-button-background);
+  color: var(--theme-button-text);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  overflow-wrap: anywhere;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.genreButton:hover {
+  border-color: var(--header-focus);
+  background: var(--header-background);
+  box-shadow: 0 0 0 2px rgb(37 99 235 / 10%);
+}
+
+.genreButtonActive,
+.genreButtonActive:hover {
+  border-color: #2563eb;
+  background: #2563eb;
+  color: #fff;
+}
+
+.genreButton:focus-visible {
+  outline: 3px solid var(--header-focus);
+  outline-offset: 3px;
+}
+
+.message {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 21px;
+}
+
+:global(:root[data-theme='dark']) .genreButton:not(.genreButtonActive) {
+  border-color: #3e4b6a;
+  background: #2f3a4e;
+}
+
+:global(:root[data-theme='dark']) .genreButton:not(.genreButtonActive):hover {
+  border-color: var(--header-focus);
+  background: var(--header-background);
+}
+
+@media (max-width: 767px) {
+  .genres {
+    margin-top: 28px;
+  }
+
+  .genreButton {
+    min-height: 44px;
+  }
+}
