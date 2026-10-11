@@ -1,18 +1,15 @@
-import {type ChangeEvent, type SubmitEventHandler, useEffect, useState} from 'react'
+import {type ChangeEvent, type SubmitEventHandler, useState} from 'react'
 import styles from './SearchForm.module.css'
 
 type SearchFormProps = {
   onSearch: (query: string) => void
+  onClear?: () => void
   initialValue?: string
 }
 
-export const SearchForm = ({ onSearch, initialValue = '' }: SearchFormProps) => {
+export const SearchForm = ({ onSearch, onClear, initialValue = '' }: SearchFormProps) => {
   const [value, setValue] = useState(initialValue)
   const trimmedQuery = value.trim()
-
-  useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
 
   const handleSubmit: SubmitEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault()
@@ -23,7 +20,12 @@ export const SearchForm = ({ onSearch, initialValue = '' }: SearchFormProps) => 
   }
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement, HTMLInputElement>)=> {
-    setValue(event.target.value)
+    const nextValue = event.target.value
+    setValue(nextValue)
+
+    if (value !== '' && nextValue === '') {
+      onClear?.()
+    }
   }
   return (
     <form className={styles.form} onSubmit={handleSubmit} role="search">
