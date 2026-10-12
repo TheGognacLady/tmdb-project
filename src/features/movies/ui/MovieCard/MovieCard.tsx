@@ -1,23 +1,42 @@
 import { Link } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '@/app/model/hooks'
 import { getMovieDetailsPath } from '@/common/routing/paths'
+import { selectIsFavorite, toggleFavorite } from '@/features/favorites/model'
+import type { FavoriteMovie } from '@/features/favorites/model'
 import type { Movie } from '@/features/movies/model'
 import styles from './MovieCard.module.css'
 
 type MovieCardProps = {
-  movie: Movie
+  movie: Movie | FavoriteMovie
 }
 
 export const MovieCard = ({ movie }: MovieCardProps) => {
+  const dispatch = useAppDispatch()
+  const isFavorite = useAppSelector((state) => selectIsFavorite(state, movie.id))
   const detailsPath = getMovieDetailsPath(movie.id)
-  const posterUrl = movie.poster_path
-    ? `https://image.tmdb.org/t/p/w185${movie.poster_path}`
-    : null
-  const rating = movie.vote_average.toFixed(1)
-  const ratingTone = movie.vote_average > 7
+  const posterUrl = 'posterUrl' in movie
+    ? movie.posterUrl
+    : movie.poster_path
+      ? `https://image.tmdb.org/t/p/w185${movie.poster_path}`
+      : null
+  const voteAverage = 'voteAverage' in movie ? movie.voteAverage : movie.vote_average
+  const rating = voteAverage.toFixed(1)
+  const ratingTone = voteAverage > 7
     ? styles.ratingPositive
-    : movie.vote_average >= 5
+    : voteAverage >= 5
       ? styles.ratingNeutral
       : styles.ratingNegative
+  const favoriteLabel = isFavorite ? 'Remove from favorites' : 'Add to favorites'
+  const favoriteMovie: FavoriteMovie = {
+    id: movie.id,
+    title: movie.title,
+    posterUrl,
+    voteAverage,
+  }
+
+  const handleFavoriteClick = () => {
+    dispatch(toggleFavorite(favoriteMovie))
+  }
 
   return (
     <article className={styles.card}>
@@ -32,9 +51,21 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
             {rating}
           </span>
         </Link>
-        <button className={styles.favoriteButton} type="button" aria-label="Add to favorites">
-          <svg className={styles.favoriteIcon} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M12 21.35 10.55 20.03C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35Z" />
+        <button
+          className={`${styles.favoriteButton} ${isFavorite ? styles.favoriteButtonVisible : ''}`}
+          type="button"
+          onClick={handleFavoriteClick}
+          aria-pressed={isFavorite}
+          aria-label={favoriteLabel}
+          title={favoriteLabel}
+        >
+          <svg
+            className={`${styles.favoriteIcon} ${isFavorite ? styles.favoriteIconActive : ''}`}
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M12 21.35 10.55 20.03C5.4 15.36 2 12.27 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.77-3.4 6.86-8.55 11.54L12 21.35z" />
           </svg>
         </button>
       </div>
