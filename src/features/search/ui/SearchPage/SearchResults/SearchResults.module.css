@@ -5,6 +5,19 @@
   gap: 24px;
 }
 
+.resultsTitle {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #213547;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 36px;
+}
+
+:global(:root[data-theme='dark']) .resultsTitle {
+  color: var(--text-primary);
+}
+
 .message {
   margin: 0;
   overflow-wrap: anywhere;

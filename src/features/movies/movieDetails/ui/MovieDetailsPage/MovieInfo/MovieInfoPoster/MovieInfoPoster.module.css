@@ -1,0 +1,32 @@
+.posterWrapper {
+  width: 100%;
+  max-width: 320px;
+}
+
+.poster,
+.posterFallback {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgb(var(--details-gray-900-rgb) / 10%);
+}
+
+.poster {
+  object-fit: cover;
+}
+
+.posterFallback {
+  display: grid;
+  place-items: center;
+  background: var(--details-gray-200);
+  color: var(--details-gray-600);
+  font-size: 16px;
+}
+
+@media (max-width: 900px) {
+  .posterWrapper {
+    max-width: 240px;
+  }
+}

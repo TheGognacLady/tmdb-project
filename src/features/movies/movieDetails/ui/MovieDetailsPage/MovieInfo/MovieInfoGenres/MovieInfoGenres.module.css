@@ -1,0 +1,35 @@
+.genres {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.genresTitle {
+  margin: 0;
+  color: var(--details-gray-900);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.genresList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.genre {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--details-gray-200);
+  color: var(--details-gray-800);
+  font-size: 14px;
+}
+
+.genresEmpty {
+  margin: 0;
+  color: var(--details-gray-500);
+  font-size: 16px;
+}

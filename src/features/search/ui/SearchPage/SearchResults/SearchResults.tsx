@@ -27,6 +27,7 @@ export const SearchResults = ({ query, page, onPageChange }: SearchResultsProps)
 
   return (
     <section className={styles.results} aria-label="Search results">
+      <h2 className={styles.resultsTitle}>Results for "{query}"</h2>
       {isError ? (
         <div className={styles.errorState}>
           <p className={styles.message} role="alert">Unable to load search results. Please try again later.</p>

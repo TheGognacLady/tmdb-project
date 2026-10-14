@@ -56,40 +56,10 @@
   text-align: center;
 }
 
-.rating {
+.cardRating {
   position: absolute;
   right: 12px;
   bottom: 12px;
-  display: flex;
-  width: 40px;
-  height: 40px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.ratingPositive {
-  background: #16a34a;
-}
-
-.ratingNeutral {
-  background: #facc15;
-  color: #111827;
-}
-
-.ratingNegative {
-  background: #dc2626;
-}
-
-:global([data-theme='dark']) .ratingPositive {
-  background: #22c55e;
-}
-
-:global([data-theme='dark']) .ratingNegative {
-  background: #ef4444;
 }
 
 .favoriteButton {

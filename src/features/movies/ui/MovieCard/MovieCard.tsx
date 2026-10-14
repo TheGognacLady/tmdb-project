@@ -4,6 +4,7 @@ import { getMovieDetailsPath } from '@/common/routing/paths'
 import { selectIsFavorite, toggleFavorite } from '@/features/favorites/model'
 import type { FavoriteMovie } from '@/features/favorites/model'
 import type { Movie } from '@/features/movies/model'
+import { MovieRating } from '../MovieRating/MovieRating'
 import styles from './MovieCard.module.css'
 
 type MovieCardProps = {
@@ -20,12 +21,6 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
       ? `https://image.tmdb.org/t/p/w185${movie.poster_path}`
       : null
   const voteAverage = 'voteAverage' in movie ? movie.voteAverage : movie.vote_average
-  const rating = voteAverage.toFixed(1)
-  const ratingTone = voteAverage > 7
-    ? styles.ratingPositive
-    : voteAverage >= 5
-      ? styles.ratingNeutral
-      : styles.ratingNegative
   const favoriteLabel = isFavorite ? 'Remove from favorites' : 'Add to favorites'
   const favoriteMovie: FavoriteMovie = {
     id: movie.id,
@@ -47,9 +42,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
           ) : (
             <span className={styles.posterFallback}>No poster</span>
           )}
-          <span className={`${styles.rating} ${ratingTone}`} aria-label={`Rating: ${rating}`}>
-            {rating}
-          </span>
+          <MovieRating rating={voteAverage} className={styles.cardRating} />
         </Link>
         <button
           className={`${styles.favoriteButton} ${isFavorite ? styles.favoriteButtonVisible : ''}`}
