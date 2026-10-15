@@ -1,5 +1,7 @@
 import { Footer, Header } from '@/common/components'
 import { Routing } from '@/common/routing'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import styles from './App.module.css'
 
 const App = () => {
@@ -10,6 +12,7 @@ const App = () => {
         <Routing />
       </main>
       <Footer />
+      <ToastContainer theme="light" />
     </div>
   )
 }

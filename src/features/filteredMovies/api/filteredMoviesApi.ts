@@ -17,11 +17,11 @@ export const filteredMoviesApi = baseApi.injectEndpoints({
           ...(genreIds?.length ? { with_genres: genreIds.join(',') } : {}),
         },
       }),
-      transformResponse: (response: unknown) => moviesListSchema.parse(response),
+      responseSchema: moviesListSchema,
     }),
     getMovieGenres: builder.query<GenresList, void>({
       query: () => ({ url: 'genre/movie/list' }),
-      transformResponse: (response: unknown) => genresListSchema.parse(response),
+      responseSchema: genresListSchema,
     }),
   }),
 })

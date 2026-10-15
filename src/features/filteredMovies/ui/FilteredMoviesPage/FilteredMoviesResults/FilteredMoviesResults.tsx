@@ -24,7 +24,7 @@ export const FilteredMoviesResults = ({
   genreIds,
   onPageChange,
 }: FilteredMoviesResultsProps) => {
-  const { data, isFetching, isError } = useGetFilteredMoviesQuery(
+  const { data, currentData, isFetching, isError } = useGetFilteredMoviesQuery(
     {
       page: currentPage,
       sortBy,
@@ -34,26 +34,34 @@ export const FilteredMoviesResults = ({
     },
     { skip: isRatingPending },
   )
-  const totalPages = Math.min(data?.total_pages ?? 0, TMDB_MAX_PAGE)
+  const visibleData = isRatingPending ? data : currentData
+  const totalPages = Math.min(visibleData?.total_pages ?? 0, TMDB_MAX_PAGE)
 
   return (
     <section className={styles.results} aria-label="Filtered movies">
       {/* TODO: Revisit retained data when adding skeleton and loading states. */}
-      {isError ? (
-        <p className={styles.message} role="alert">Failed to load movies.</p>
-      ) : isFetching && !data ? (
-        <p className={styles.message} role="status">Loading...</p>
-      ) : data?.results.length === 0 ? (
+      {isRatingPending && visibleData && (
+        <p className={styles.message} role="status">Updating filters. Showing previous results.</p>
+      )}
+      {visibleData?.results.length === 0 ? (
         <p className={styles.message}>No movies found.</p>
-      ) : (
-        <div className={styles.moviesGrid}>
-          {data?.results.map((movie) => (
+      ) : visibleData ? (
+        <div className={styles.moviesGrid} aria-busy={isFetching || isRatingPending}>
+          {visibleData.results.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>
+      ) : isRatingPending ? (
+        <p className={styles.message} role="status">Updating filters...</p>
+      ) : isFetching ? (
+        <p className={styles.message} role="status">Loading...</p>
+      ) : isError ? (
+        <p className={styles.message}>Movies are unavailable.</p>
+      ) : (
+        <p className={styles.message} role="status">Loading...</p>
       )}
 
-      {!isError && (
+      {visibleData && !isRatingPending && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

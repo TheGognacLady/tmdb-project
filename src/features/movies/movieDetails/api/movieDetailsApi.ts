@@ -8,15 +8,15 @@ export const movieDetailsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getMovieDetails: builder.query<MovieDetails, number>({
       query: (movieId) => ({ url: `movie/${movieId}`, params: { language: 'en-US' } }),
-      transformResponse: (response: unknown) => movieDetailsSchema.parse(response),
+      responseSchema: movieDetailsSchema,
     }),
     getMovieCredits: builder.query<MovieCredits, number>({
       query: (movieId) => ({ url: `movie/${movieId}/credits`, params: { language: 'en-US' } }),
-      transformResponse: (response: unknown) => movieCreditsSchema.parse(response),
+      responseSchema: movieCreditsSchema,
     }),
     getSimilarMovies: builder.query<MoviesList, number>({
       query: (movieId) => ({ url: `movie/${movieId}/similar`, params: { language: 'en-US', page: 1 } }),
-      transformResponse: (response: unknown) => moviesListSchema.parse(response),
+      responseSchema: moviesListSchema,
     }),
   }),
 })

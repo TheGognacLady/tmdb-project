@@ -1,19 +1,21 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import { baseQueryWithErrorHandling } from './baseQueryWithErrorHandling'
+import { SCHEMA_VALIDATION_ERROR_CODE } from './handleApiError'
+import { notifyApiError } from './notifyApiError'
 
 export const baseApi = createApi({
   reducerPath: 'baseApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.themoviedb.org/3/',
-    prepareHeaders: (headers) => {
-      const token = import.meta.env.VITE_TMDB_ACCESS_TOKEN
+  baseQuery: baseQueryWithErrorHandling,
+  catchSchemaFailure: (_schemaError, { endpoint }): FetchBaseQueryError => {
+    const error: FetchBaseQueryError = {
+      status: 'CUSTOM_ERROR',
+      error: 'Movie data validation failed',
+      data: { code: SCHEMA_VALIDATION_ERROR_CODE },
+    }
+    notifyApiError(error, endpoint)
 
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
-      }
-
-      headers.set('accept', 'application/json')
-      return headers
-    },
-  }),
+    return error
+  },
   endpoints: () => ({}),
 })

@@ -21,12 +21,11 @@ type MoviesCategoryContentProps = {
 
 export const MoviesCategoryContent = ({ category }: MoviesCategoryContentProps) => {
   const [currentPage, setCurrentPage] = useState(1)
-  const { currentData: data, isFetching, isError, error } = useGetMoviesByCategoryQuery({
+  const { currentData: data, isFetching, isError } = useGetMoviesByCategoryQuery({
     category,
     page: currentPage,
   })
   const totalPages = Math.min(data?.total_pages ?? 0, TMDB_MAX_PAGE)
-  const isValidationError = error && 'name' in error && error.name === 'ZodError'
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -51,14 +50,10 @@ export const MoviesCategoryContent = ({ category }: MoviesCategoryContentProps) 
       <section className={styles.section} aria-labelledby="category-title">
         <h1 className={styles.title} id="category-title">{categoryTitles[category]}</h1>
 
-        {isError ? (
-          <p className={styles.message} role="alert">
-            {isValidationError
-              ? 'Movie data could not be validated.'
-              : 'Unable to load movies. Please try again later.'}
-          </p>
-        ) : isFetching && !data ? (
+        {!data && isFetching ? (
           <p className={styles.message} role="status">Loading movies...</p>
+        ) : !data && isError ? (
+          <p className={styles.message}>Movies are unavailable.</p>
         ) : data?.results.length === 0 ? (
           <p className={styles.message}>No movies available.</p>
         ) : (
@@ -69,7 +64,7 @@ export const MoviesCategoryContent = ({ category }: MoviesCategoryContentProps) 
           </div>
         )}
 
-        {!isError && (
+        {data && (
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

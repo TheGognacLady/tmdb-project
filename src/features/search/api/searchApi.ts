@@ -14,7 +14,7 @@ export const searchApi = baseApi.injectEndpoints({
         url: 'search/movie',
         params: { query, page },
       }),
-      transformResponse: (response: unknown) => moviesListSchema.parse(response),
+      responseSchema: moviesListSchema,
     }),
   }),
 })

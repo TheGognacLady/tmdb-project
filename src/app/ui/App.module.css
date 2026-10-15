@@ -9,3 +9,14 @@
   width: 100%;
   flex: 1;
 }
+
+.app :global(.Toastify__toast-theme--light) {
+  border: 1px solid var(--header-border);
+  background: var(--header-background);
+  color: var(--text-primary);
+}
+
+.app :global(.Toastify__close-button--light) {
+  color: var(--text-primary);
+  opacity: 0.7;
+}

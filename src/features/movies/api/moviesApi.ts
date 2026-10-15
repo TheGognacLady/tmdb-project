@@ -30,7 +30,7 @@ export const moviesApi = baseApi.injectEndpoints({
           ...(region !== undefined ? { region } : {}),
         },
       }),
-      transformResponse: (response: unknown) => moviesListSchema.parse(response),
+      responseSchema: moviesListSchema,
     }),
   }),
 })

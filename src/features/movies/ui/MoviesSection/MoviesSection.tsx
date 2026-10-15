@@ -11,7 +11,7 @@ type MoviesSectionProps = {
 }
 
 export const MoviesSection = ({ title, category }: MoviesSectionProps) => {
-  const { data } = useGetMoviesByCategoryQuery({ category, page: 1 })
+  const { currentData: data, isFetching, isError } = useGetMoviesByCategoryQuery({ category, page: 1 })
   const movies = data?.results.slice(0, 6) ?? []
   const titleId = `${category}-title`
 
@@ -24,11 +24,23 @@ export const MoviesSection = ({ title, category }: MoviesSectionProps) => {
             View More
           </Link>
         </div>
-        <div className={styles.moviesGrid}>
-          {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
-        </div>
+        {data ? (
+          movies.length === 0 ? (
+            <p className={styles.message}>No movies available.</p>
+          ) : (
+            <div className={styles.moviesGrid} aria-busy={isFetching}>
+              {movies.map((movie) => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))}
+            </div>
+          )
+        ) : isFetching ? (
+          <p className={styles.message} role="status">Loading movies...</p>
+        ) : isError ? (
+          <p className={styles.message}>Movies are unavailable.</p>
+        ) : (
+          <p className={styles.message} role="status">Loading movies...</p>
+        )}
       </section>
     </div>
   )

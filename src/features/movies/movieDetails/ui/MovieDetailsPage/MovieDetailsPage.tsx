@@ -52,16 +52,34 @@ export const MovieDetailsPage = () => {
   // currentData belongs to the requested ID, so a previous film cannot flash during navigation.
   const movie = details.currentData
 
-  if (details.isLoading || (details.isFetching && !movie)) {
+  if (!movie && (details.isLoading || details.isFetching)) {
     return <section className={styles.page}><p className={styles.message} role="status">Loading movie details...</p></section>
   }
 
-  if (details.isError) {
-    return <section className={styles.page}><p className={styles.message} role="alert">Unable to load movie details. Please try again later.</p></section>
+  if (!movie && details.error && 'status' in details.error && details.error.status === 404) {
+    return <section className={styles.page}><p className={styles.message}>Movie not found or details unavailable.</p></section>
+  }
+
+  if (!movie && details.isError) {
+    return (
+      <section className={styles.page}>
+        <div className={styles.errorState}>
+          <p className={styles.message}>Unable to load movie details.</p>
+          <button
+            className={styles.retryButton}
+            type="button"
+            onClick={() => { void details.refetch() }}
+            disabled={details.isFetching}
+          >
+            Retry
+          </button>
+        </div>
+      </section>
+    )
   }
 
   if (!movie) {
-    return <section className={styles.page}><p className={styles.message}>Movie not found.</p></section>
+    return <section className={styles.page}><p className={styles.message} role="status">Loading movie details...</p></section>
   }
 
   return (
@@ -70,12 +88,12 @@ export const MovieDetailsPage = () => {
       <MovieCast
         cast={credits.currentData?.cast}
         isLoading={credits.isLoading || (credits.isFetching && !credits.currentData)}
-        isError={credits.isError}
+        isError={credits.isError && !credits.currentData}
       />
       <SimilarMovies
         movies={similar.currentData?.results}
         isLoading={similar.isLoading || (similar.isFetching && !similar.currentData)}
-        isError={similar.isError}
+        isError={similar.isError && !similar.currentData}
       />
     </section>
   )

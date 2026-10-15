@@ -28,9 +28,11 @@ export const SearchResults = ({ query, page, onPageChange }: SearchResultsProps)
   return (
     <section className={styles.results} aria-label="Search results">
       <h2 className={styles.resultsTitle}>Results for "{query}"</h2>
-      {isError ? (
+      {isError && (
         <div className={styles.errorState}>
-          <p className={styles.message} role="alert">Unable to load search results. Please try again later.</p>
+          <p className={styles.message}>
+            {data ? 'Showing previously loaded results.' : 'Search results are unavailable.'}
+          </p>
           <button
             className={styles.retryButton}
             type="button"
@@ -40,7 +42,8 @@ export const SearchResults = ({ query, page, onPageChange }: SearchResultsProps)
             {isFetching ? 'Retrying...' : 'Retry'}
           </button>
         </div>
-      ) : !data || isPageOutOfRange ? (
+      )}
+      {!data && isError ? null : !data || isPageOutOfRange ? (
         <p className={styles.message} role="status">Loading movies...</p>
       ) : data.results.length === 0 && data.total_pages === 0 ? (
         <p className={styles.message} role="status">No matches found for "{query}"</p>
