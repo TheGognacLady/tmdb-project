@@ -3,6 +3,7 @@ import { Pagination } from '@/common/components'
 import { useGetFilteredMoviesQuery } from '@/features/filteredMovies/api'
 import type { FilteredMoviesSort } from '@/features/filteredMovies/model'
 import { MovieCard } from '@/features/movies/ui'
+import { MovieCardSkeleton } from '@/features/movies/ui/MovieCardSkeleton/MovieCardSkeleton'
 import styles from './FilteredMoviesResults.module.css'
 
 type FilteredMoviesResultsProps = {
@@ -39,7 +40,6 @@ export const FilteredMoviesResults = ({
 
   return (
     <section className={styles.results} aria-label="Filtered movies">
-      {/* TODO: Revisit retained data when adding skeleton and loading states. */}
       {isRatingPending && visibleData && (
         <p className={styles.message} role="status">Updating filters. Showing previous results.</p>
       )}
@@ -54,7 +54,11 @@ export const FilteredMoviesResults = ({
       ) : isRatingPending ? (
         <p className={styles.message} role="status">Updating filters...</p>
       ) : isFetching ? (
-        <p className={styles.message} role="status">Loading...</p>
+        <div className={styles.moviesGrid} role="status" aria-label="Loading movies">
+          {Array.from({ length: 20 }, (_, index) => (
+            <MovieCardSkeleton key={index} />
+          ))}
+        </div>
       ) : isError ? (
         <p className={styles.message}>Movies are unavailable.</p>
       ) : (

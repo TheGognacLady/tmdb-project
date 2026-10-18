@@ -6,6 +6,7 @@ import { getMoviesCategoryPath } from '@/common/routing/paths'
 import { useGetMoviesByCategoryQuery } from '@/features/movies/api'
 import { MovieCategory } from '@/features/movies/model'
 import { MovieCard } from '@/features/movies/ui/MovieCard/MovieCard'
+import { MovieCardSkeleton } from '@/features/movies/ui/MovieCardSkeleton/MovieCardSkeleton'
 import styles from './MoviesCategoryContent.module.css'
 
 const categoryTitles: Record<MovieCategory, string> = {
@@ -21,11 +22,12 @@ type MoviesCategoryContentProps = {
 
 export const MoviesCategoryContent = ({ category }: MoviesCategoryContentProps) => {
   const [currentPage, setCurrentPage] = useState(1)
-  const { currentData: data, isFetching, isError } = useGetMoviesByCategoryQuery({
+  const { currentData: data, isFetching } = useGetMoviesByCategoryQuery({
     category,
     page: currentPage,
   })
   const totalPages = Math.min(data?.total_pages ?? 0, TMDB_MAX_PAGE)
+  const showSkeletons = !data && isFetching
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -50,9 +52,13 @@ export const MoviesCategoryContent = ({ category }: MoviesCategoryContentProps) 
       <section className={styles.section} aria-labelledby="category-title">
         <h1 className={styles.title} id="category-title">{categoryTitles[category]}</h1>
 
-        {!data && isFetching ? (
-          <p className={styles.message} role="status">Loading movies...</p>
-        ) : !data && isError ? (
+        {showSkeletons ? (
+          <div className={styles.moviesGrid} role="status" aria-label="Loading movies">
+            {Array.from({ length: 20 }, (_, index) => (
+              <MovieCardSkeleton key={index} />
+            ))}
+          </div>
+        ) : !data ? (
           <p className={styles.message}>Movies are unavailable.</p>
         ) : data?.results.length === 0 ? (
           <p className={styles.message}>No movies available.</p>

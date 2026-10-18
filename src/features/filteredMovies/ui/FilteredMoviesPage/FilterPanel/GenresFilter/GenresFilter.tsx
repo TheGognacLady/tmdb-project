@@ -7,7 +7,7 @@ type GenresFilterProps = {
 }
 
 export const GenresFilter = ({ selectedGenreIds, onGenreToggle }: GenresFilterProps) => {
-  const { data, isFetching, isError } = useGetMovieGenresQuery()
+  const { data, isFetching, isError, refetch } = useGetMovieGenresQuery()
 
   return (
     <div className={styles.genres} role="group" aria-label="Genres">
@@ -30,12 +30,19 @@ export const GenresFilter = ({ selectedGenreIds, onGenreToggle }: GenresFilterPr
           )
         })
       ) : isFetching ? (
-        <p className={styles.message} role="status">Loading genres...</p>
+        <div className={styles.skeletons} role="status" aria-label="Loading genres">
+          {Array.from({ length: 6 }, (_, index) => (
+            <span className={styles.skeleton} aria-hidden="true" key={index} />
+          ))}
+        </div>
       ) : isError ? (
-        <p className={styles.message}>Genres are unavailable.</p>
-      ) : (
-        <p className={styles.message} role="status">Loading genres...</p>
-      )}
+        <>
+          <p className={styles.message}>Genres are unavailable.</p>
+          <button className={styles.genreButton} type="button" onClick={() => { void refetch() }}>
+            Retry
+          </button>
+        </>
+      ) : null}
     </div>
   )
 }

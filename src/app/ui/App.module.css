@@ -10,6 +10,11 @@
   flex: 1;
 }
 
+.progressSlot {
+  height: 4px;
+  flex: none;
+}
+
 .app :global(.Toastify__toast-theme--light) {
   border: 1px solid var(--header-border);
   background: var(--header-background);

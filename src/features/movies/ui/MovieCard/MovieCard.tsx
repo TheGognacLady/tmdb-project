@@ -15,6 +15,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
   const dispatch = useAppDispatch()
   const isFavorite = useAppSelector((state) => selectIsFavorite(state, movie.id))
   const detailsPath = getMovieDetailsPath(movie.id)
+  const detailsState = { movieId: movie.id, movieTitle: movie.title }
   const posterUrl = 'posterUrl' in movie
     ? movie.posterUrl
     : movie.poster_path
@@ -36,7 +37,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
   return (
     <article className={styles.card}>
       <div className={styles.posterFrame}>
-        <Link className={styles.posterLink} to={detailsPath}>
+        <Link className={styles.posterLink} to={detailsPath} state={detailsState}>
           {posterUrl ? (
             <img className={styles.poster} src={posterUrl} alt={`${movie.title} poster`} />
           ) : (
@@ -62,7 +63,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
           </svg>
         </button>
       </div>
-      <Link className={styles.titleLink} to={detailsPath}>
+      <Link className={styles.titleLink} to={detailsPath} state={detailsState}>
         <h3 className={styles.title}>{movie.title}</h3>
       </Link>
     </article>

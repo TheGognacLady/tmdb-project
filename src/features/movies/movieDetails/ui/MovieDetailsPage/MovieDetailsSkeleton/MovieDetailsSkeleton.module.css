@@ -1,0 +1,161 @@
+.content {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 32px;
+}
+
+.poster {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 2 / 3;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgb(var(--details-gray-900-rgb) / 10%);
+}
+
+.details,
+.general,
+.header,
+.genres {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.details,
+.general {
+  gap: 24px;
+}
+
+.header,
+.genres {
+  gap: 12px;
+}
+
+.headerTop,
+.meta,
+.genresList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.headerTop {
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.meta {
+  gap: 16px;
+}
+
+.genresList {
+  gap: 12px;
+}
+
+.title {
+  width: min(60%, 360px);
+  height: 40px;
+  border-radius: 8px;
+}
+
+.backButton {
+  width: 64px;
+  height: 36px;
+  border-radius: 999px;
+}
+
+.year,
+.runtime {
+  width: 124px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.rating {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 4px 16px rgb(37 99 235 / 15%);
+}
+
+.overview {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.overviewLine,
+.overviewLineShort {
+  width: 100%;
+  height: 20px;
+  border-radius: 6px;
+}
+
+.overviewLineShort {
+  width: 72%;
+}
+
+.genresTitle {
+  width: 76px;
+  height: 30px;
+  border-radius: 6px;
+}
+
+.genre {
+  width: 80px;
+  height: 33px;
+  border-radius: 999px;
+}
+
+.poster,
+.title,
+.backButton,
+.year,
+.runtime,
+.rating,
+.overviewLine,
+.overviewLineShort,
+.genresTitle,
+.genre {
+  background: var(--details-gray-200);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (max-width: 900px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .poster {
+    max-width: 240px;
+  }
+}
+
+@media (max-width: 520px) {
+  .title {
+    height: 33px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster,
+  .title,
+  .backButton,
+  .year,
+  .runtime,
+  .rating,
+  .overviewLine,
+  .overviewLineShort,
+  .genresTitle,
+  .genre {
+    animation: none;
+  }
+}

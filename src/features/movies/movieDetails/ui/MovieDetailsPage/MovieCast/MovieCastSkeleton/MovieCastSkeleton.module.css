@@ -1,0 +1,56 @@
+.card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 160px;
+  max-width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.info {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.name {
+  width: min(80%, 120px);
+  height: 24px;
+  border-radius: 6px;
+}
+
+.character {
+  width: min(65%, 100px);
+  height: 21px;
+  border-radius: 6px;
+}
+
+.avatar,
+.name,
+.character {
+  background: var(--details-gray-200);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar,
+  .name,
+  .character {
+    animation: none;
+  }
+}

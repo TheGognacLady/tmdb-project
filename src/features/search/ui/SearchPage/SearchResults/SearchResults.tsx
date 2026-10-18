@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { TMDB_MAX_PAGE } from '@/common/api/tmdb/tmdb.constants'
 import { Pagination } from '@/common/components'
 import { MovieCard } from '@/features/movies/ui'
+import { MovieCardSkeleton } from '@/features/movies/ui/MovieCardSkeleton/MovieCardSkeleton'
 import { useGetSearchedMoviesQuery } from '@/features/search/api'
 import styles from './SearchResults.module.css'
 
@@ -43,7 +44,13 @@ export const SearchResults = ({ query, page, onPageChange }: SearchResultsProps)
           </button>
         </div>
       )}
-      {!data && isError ? null : !data || isPageOutOfRange ? (
+      {!data && isError ? null : !data && isFetching ? (
+        <div className={styles.moviesGrid} role="status" aria-label="Loading movies">
+          {Array.from({ length: 20 }, (_, index) => (
+            <MovieCardSkeleton key={index} />
+          ))}
+        </div>
+      ) : !data || isPageOutOfRange ? (
         <p className={styles.message} role="status">Loading movies...</p>
       ) : data.results.length === 0 && data.total_pages === 0 ? (
         <p className={styles.message} role="status">No matches found for "{query}"</p>

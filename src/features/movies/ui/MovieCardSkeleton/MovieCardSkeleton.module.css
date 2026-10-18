@@ -1,0 +1,66 @@
+.card {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.posterFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--navigation-active-background);
+}
+
+.favorite,
+.rating {
+  position: absolute;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--header-background);
+}
+
+.favorite {
+  top: 12px;
+  display: none;
+}
+
+.rating {
+  bottom: 12px;
+}
+
+.title {
+  width: 76%;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--navigation-active-background);
+}
+
+.posterFrame,
+.title {
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (hover: none) {
+  .favorite {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .posterFrame,
+  .title {
+    animation: none;
+  }
+}
