@@ -39,7 +39,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
       <div className={styles.posterFrame}>
         <Link className={styles.posterLink} to={detailsPath} state={detailsState}>
           {posterUrl ? (
-            <img className={styles.poster} src={posterUrl} alt={`${movie.title} poster`} />
+            <img className={styles.poster} src={posterUrl} alt={`${movie.title} poster`} loading="lazy" />
           ) : (
             <span className={styles.posterFallback}>No poster</span>
           )}

@@ -4,13 +4,21 @@ type Theme = 'light' | 'dark'
 
 export const useTheme = () => {
   const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = localStorage.getItem('theme')
-    return savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'light'
+    try {
+      const savedTheme = window.localStorage.getItem('theme')
+      return savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'light'
+    } catch {
+      return 'light'
+    }
   })
 
   useLayoutEffect(() => {
     document.documentElement.dataset.theme = theme
-    localStorage.setItem('theme', theme)
+    try {
+      window.localStorage.setItem('theme', theme)
+    } catch {
+      // Keep the selected theme active when browser storage is unavailable.
+    }
   }, [theme])
 
   const toggleTheme = () => {
