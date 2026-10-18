@@ -11,8 +11,17 @@
 }
 
 .progressSlot {
-  height: 4px;
+  position: relative;
+  z-index: 3;
+  height: 0;
   flex: none;
+  pointer-events: none;
+}
+
+.progressSlot > * {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .app :global(.Toastify__toast-theme--light) {
