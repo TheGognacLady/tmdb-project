@@ -37,6 +37,30 @@
   gap: 16px;
 }
 
+.homeLink {
+  display: inline-flex;
+  min-height: 46px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.homeLink:hover {
+  background: #1d4ed8;
+}
+
+.homeLink:focus-visible {
+  outline: 3px solid var(--header-focus);
+  outline-offset: 3px;
+}
+
 .retryButton {
   padding: 6px 12px;
   border: 1px solid var(--details-gray-300);

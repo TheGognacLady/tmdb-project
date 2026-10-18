@@ -1,5 +1,5 @@
 import { skipToken } from '@reduxjs/toolkit/query'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Path } from '@/common/routing/paths'
 import {
   useGetMovieCreditsQuery,
@@ -83,7 +83,14 @@ export const MovieDetailsPage = () => {
   }
 
   if (movieId === undefined) {
-    return <section className={styles.page}><p className={styles.message}>Movie not found.</p></section>
+    return (
+      <section className={styles.page}>
+        <div className={styles.errorState}>
+          <p className={styles.message}>Invalid movie address or ID.</p>
+          <Link className={styles.homeLink} to={Path.Main}>Back to Home</Link>
+        </div>
+      </section>
+    )
   }
 
   // currentData belongs to the requested ID, so a previous film cannot flash during navigation.
@@ -94,7 +101,14 @@ export const MovieDetailsPage = () => {
   }
 
   if (!movie && details.error && 'status' in details.error && details.error.status === 404) {
-    return <section className={styles.page}><p className={styles.message}>Movie not found or details unavailable.</p></section>
+    return (
+      <section className={styles.page}>
+        <div className={styles.errorState}>
+          <p className={styles.message}>Movie not found or details unavailable.</p>
+          <Link className={styles.homeLink} to={Path.Main}>Back to Home</Link>
+        </div>
+      </section>
+    )
   }
 
   if (!movie) {
