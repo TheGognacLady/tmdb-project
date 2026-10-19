@@ -25,7 +25,7 @@ export const FilteredMoviesResults = ({
   genreIds,
   onPageChange,
 }: FilteredMoviesResultsProps) => {
-  const { data, currentData, isFetching, isError } = useGetFilteredMoviesQuery(
+  const { data, currentData, isFetching, isError, refetch } = useGetFilteredMoviesQuery(
     {
       page: currentPage,
       sortBy,
@@ -43,7 +43,22 @@ export const FilteredMoviesResults = ({
       {isRatingPending && visibleData && (
         <p className={styles.message} role="status">Updating filters. Showing previous results.</p>
       )}
-      {visibleData?.results.length === 0 ? (
+      {isError && !isRatingPending && (
+        <div className={styles.errorState}>
+          <p className={styles.message}>
+            {visibleData ? 'Showing previously loaded results.' : 'Movies are unavailable.'}
+          </p>
+          <button
+            className={styles.retryButton}
+            type="button"
+            onClick={() => { void refetch() }}
+            disabled={isFetching}
+          >
+            {isFetching ? 'Retrying...' : 'Retry'}
+          </button>
+        </div>
+      )}
+      {!visibleData && isError && !isRatingPending ? null : visibleData?.results.length === 0 ? (
         <p className={styles.message}>No movies found.</p>
       ) : visibleData ? (
         <div className={styles.moviesGrid} aria-busy={isFetching || isRatingPending}>
@@ -59,8 +74,6 @@ export const FilteredMoviesResults = ({
             <MovieCardSkeleton key={index} />
           ))}
         </div>
-      ) : isError ? (
-        <p className={styles.message}>Movies are unavailable.</p>
       ) : (
         <p className={styles.message} role="status">Loading...</p>
       )}

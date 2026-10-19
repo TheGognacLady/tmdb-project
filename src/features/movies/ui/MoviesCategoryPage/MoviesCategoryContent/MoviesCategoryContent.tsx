@@ -22,7 +22,7 @@ type MoviesCategoryContentProps = {
 
 export const MoviesCategoryContent = ({ category }: MoviesCategoryContentProps) => {
   const [currentPage, setCurrentPage] = useState(1)
-  const { currentData: data, isFetching } = useGetMoviesByCategoryQuery({
+  const { currentData: data, isFetching, isError, refetch } = useGetMoviesByCategoryQuery({
     category,
     page: currentPage,
   })
@@ -52,7 +52,23 @@ export const MoviesCategoryContent = ({ category }: MoviesCategoryContentProps) 
       <section className={styles.section} aria-labelledby="category-title">
         <h1 className={styles.title} id="category-title">{categoryTitles[category]}</h1>
 
-        {showSkeletons ? (
+        {isError && (
+          <div className={styles.errorState}>
+            <p className={styles.message}>
+              {data ? 'Showing previously loaded results.' : 'Movies are unavailable.'}
+            </p>
+            <button
+              className={styles.retryButton}
+              type="button"
+              onClick={() => { void refetch() }}
+              disabled={isFetching}
+            >
+              {isFetching ? 'Retrying...' : 'Retry'}
+            </button>
+          </div>
+        )}
+
+        {!data && isError ? null : showSkeletons ? (
           <div className={styles.moviesGrid} role="status" aria-label="Loading movies">
             {Array.from({ length: 20 }, (_, index) => (
               <MovieCardSkeleton key={index} />
@@ -60,11 +76,11 @@ export const MoviesCategoryContent = ({ category }: MoviesCategoryContentProps) 
           </div>
         ) : !data ? (
           <p className={styles.message}>Movies are unavailable.</p>
-        ) : data?.results.length === 0 ? (
+        ) : data.results.length === 0 ? (
           <p className={styles.message}>No movies available.</p>
         ) : (
           <div className={styles.moviesGrid}>
-            {data?.results.map((movie) => (
+            {data.results.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />
             ))}
           </div>
